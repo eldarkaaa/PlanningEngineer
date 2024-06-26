@@ -1,0 +1,146 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Отчет по зданиям";
+}
+
+<h1 class="text-center mt-4">Отчет по зданиям</h1>
+<br />
+<div class="d-flex justify-content-end mb-3">
+    <a asp-action="DownloadReport" class="btn btn-primary">Скачать отчет в Excel</a>
+</div>
+<br />
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <div class="input-group mb-3">
+            <input type="text" name="searchString" class="form-control" placeholder="Поиск" value="@ViewData["CurrentFilter"]" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered w-100">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["CitySortParm"]">Город</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["BuildingAddressSortParm"]">Адрес здания</a>
+                </th>
+                <th>Материал здания</th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ApartmentSortParm"]">Квартира</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["RoomSortParm"]">Комната</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Дата замера</a>
+                </th>
+                <th>Отклонение потолка</th>
+                <th>Отклонение стены 1</th>
+                <th>Отклонение стены 2</th>
+                <th>Отклонение стены 3</th>
+                <th>Отклонение стены 4</th>
+                <th>Отклонение пола</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in Model)
+            {
+                var material = (PlanningEngineerApplication.Models.BuildingMaterial)report.BuildingMaterial;
+                var deviationLimits = material.GetDeviationLimits();
+
+                <tr>
+                    <td>@report.BuildingCity</td>
+                    <td>@report.BuildingAddress</td>
+                    <td>@material.GetDisplayName()</td>
+                    <td>Квартира № @report.ApartmentNumber</td>
+                    <td>Комната: @report.RoomName</td>
+                    <td>
+                        @if (report.MeasurementDate != null)
+                        {
+                            @report.MeasurementDate?.ToString("dd.MM.yyyy")
+                        }
+                        else
+                        {
+                            <span>Нет данных о замерах</span>
+                        }
+                    </td>
+                    <td>
+                        @if (report.CeilingDeviation != null)
+                        {
+                            <span style="color:@(report.CeilingDeviation > deviationLimits.FloorAndCeilingDeviation ? "red" : "green")">
+                                @report.CeilingDeviation мм
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (report.Wall1Deviation != null)
+                        {
+                            <span style="color:@(report.Wall1Deviation > deviationLimits.WallDeviation ? "red" : "green")">
+                                @report.Wall1Deviation мм
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (report.Wall2Deviation != null)
+                        {
+                            <span style="color:@(report.Wall2Deviation > deviationLimits.WallDeviation ? "red" : "green")">
+                                @report.Wall2Deviation мм
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (report.Wall3Deviation != null)
+                        {
+                            <span style="color:@(report.Wall3Deviation > deviationLimits.WallDeviation ? "red" : "green")">
+                                @report.Wall3Deviation мм
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (report.Wall4Deviation != null)
+                        {
+                            <span style="color:@(report.Wall4Deviation > deviationLimits.WallDeviation ? "red" : "green")">
+                                @report.Wall4Deviation мм
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (report.FloorDeviation != null)
+                        {
+                            <span style="color:@(report.FloorDeviation > deviationLimits.FloorAndCeilingDeviation ? "red" : "green")">
+                                @report.FloorDeviation мм
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .container {
+        width: 100%;
+    }
+
+    .table-responsive {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .table {
+        width: 100%;
+        table-layout: auto;
+    }
+
+        .table th, .table td {
+            white-space: nowrap;
+        }
+</style>

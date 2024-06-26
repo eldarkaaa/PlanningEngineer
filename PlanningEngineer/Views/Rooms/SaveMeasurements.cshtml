@@ -1,0 +1,130 @@
+﻿@model PlanningEngineerApplication.Models.RoomsMeasurementDto
+
+@{
+    ViewData["Title"] = "Room Details";
+    var roomImagePath = ViewBag.RoomImagePath as string;
+}
+
+<h1 class="mt-4">Сохранить измерения</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                Измерения для @Model.RoomName
+            </div>
+            <div class="card-body">
+                <form asp-action="SaveMeasurements" method="post">
+                    <div class="form-group">
+                        <label asp-for="CeilingDeviation" class="control-label">Отклонение потолка (мм)</label>
+                        <input asp-for="CeilingDeviation" class="form-control" value="@Model.CeilingDeviation" />
+                        <span asp-validation-for="CeilingDeviation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Wall1Deviation" class="control-label">Отклонение стены 1 (мм)</label>
+                        <input asp-for="Wall1Deviation" class="form-control" value="@Model.Wall1Deviation" />
+                        <span asp-validation-for="Wall1Deviation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Wall2Deviation" class="control-label">Отклонение стены 2 (мм)</label>
+                        <input asp-for="Wall2Deviation" class="form-control" value="@Model.Wall2Deviation" />
+                        <span asp-validation-for="Wall2Deviation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Wall3Deviation" class="control-label">Отклонение стены 3 (мм)</label>
+                        <input asp-for="Wall3Deviation" class="form-control" value="@Model.Wall3Deviation" />
+                        <span asp-validation-for="Wall3Deviation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Wall4Deviation" class="control-label">Отклонение стены 4 (мм)</label>
+                        <input asp-for="Wall4Deviation" class="form-control" value="@Model.Wall4Deviation" />
+                        <span asp-validation-for="Wall4Deviation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FloorDeviation" class="control-label">Отклонение пола (мм)</label>
+                        <input asp-for="FloorDeviation" class="form-control" value="@Model.FloorDeviation" />
+                        <span asp-validation-for="FloorDeviation" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" asp-for="RoomId" />
+                    <input type="hidden" asp-for="ApartmentId" />
+                    <input type="hidden" asp-for="RoomName" />
+                    <input type="hidden" asp-for="BuildingAddress" />
+                    <div class="form-group">
+                        <input type="submit" value="Сохранить" class="btn btn-primary" />
+                        <a asp-action="Index" asp-route-apartmentId="@Model.ApartmentId" class="btn btn-secondary">Отменить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("form").validate({
+                rules: {
+                    CeilingDeviation: {
+                        required: true,
+                        number: true
+                    },
+                    Wall1Deviation: {
+                        required: true,
+                        number: true
+                    },
+                    Wall2Deviation: {
+                        required: true,
+                        number: true
+                    },
+                    Wall3Deviation: {
+                        required: true,
+                        number: true
+                    },
+                    Wall4Deviation: {
+                        required: true,
+                        number: true
+                    },
+                    FloorDeviation: {
+                        required: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    CeilingDeviation: {
+                        required: "Отклонение потолка обязательно",
+                        number: "Пожалуйста, введите действительное число"
+                    },
+                    Wall1Deviation: {
+                        required: "Отклонение стены 1 обязательно",
+                        number: "Пожалуйста, введите действительное число"
+                    },
+                    Wall2Deviation: {
+                        required: "Отклонение стены 2 обязательно",
+                        number: "Пожалуйста, введите действительное число"
+                    },
+                    Wall3Deviation: {
+                        required: "Отклонение стены 3 обязательно",
+                        number: "Пожалуйста, введите действительное число"
+                    },
+                    Wall4Deviation: {
+                        required: "Отклонение стены 4 обязательно",
+                        number: "Пожалуйста, введите действительное число"
+                    },
+                    FloorDeviation: {
+                        required: "Отклонение пола обязательно",
+                        number: "Пожалуйста, введите действительное число"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

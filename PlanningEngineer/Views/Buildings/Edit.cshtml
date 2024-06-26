@@ -1,0 +1,43 @@
+﻿@model PlanningEngineerApplication.Models.BuildingCreateDto
+
+@{
+    ViewData["Title"] = "Изменить здание";
+}
+
+<h1 class="text-center">Изменить здание</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="City" class="control-label">Город</label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label">Адрес</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Material" class="control-label">Материал</label>
+                <select asp-for="Material" class="form-control" asp-items="Html.GetEnumSelectList<PlanningEngineerApplication.Models.BuildingMaterial>()"></select>
+                <span asp-validation-for="Material" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfApartments" class="control-label">Количество квартир</label>
+                <input asp-for="NumberOfApartments" class="form-control" />
+                <span asp-validation-for="NumberOfApartments" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

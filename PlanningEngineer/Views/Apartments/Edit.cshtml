@@ -1,0 +1,29 @@
+﻿@model PlanningEngineerApplication.Models.ApartmentCreateDto
+
+@{
+    ViewData["Title"] = "Изменить квартиру";
+}
+
+<h1 class="text-center">Изменить квартиру</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            <div class="form-group">
+                <label asp-for="Number" class="control-label">Номер квартиры</label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="BuildingId" />
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-buildingId="@Model.BuildingId" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

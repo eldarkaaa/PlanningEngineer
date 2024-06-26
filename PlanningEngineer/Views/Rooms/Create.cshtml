@@ -1,0 +1,52 @@
+﻿@model PlanningEngineerApplication.Models.RoomsDto
+
+@{
+    ViewData["Title"] = "Создать комнату";
+}
+
+<h1 class="text-center">Создать комнату</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post" id="roomForm">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Название комнаты</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ApartmentId" />
+            <br />
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#roomForm").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        maxlength: 100
+                    }
+                },
+                messages: {
+                    Name: {
+                        required: "Название комнаты обязательно",
+                        maxlength: "Название комнаты не должно превышать 100 символов"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

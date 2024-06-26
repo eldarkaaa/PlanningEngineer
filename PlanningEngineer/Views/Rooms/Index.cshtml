@@ -1,0 +1,71 @@
+﻿@model IEnumerable<PlanningEngineerApplication.Models.Rooms>
+
+@{
+    ViewData["Title"] = "Rooms";
+    var apartmentId = ViewBag.ApartmentId as int?;
+    var apartmentNumber = ViewBag.ApartmentNumber as int?;
+    var apartmentImagePath = ViewBag.ApartmentImagePath as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-center flex-grow-1">Комнаты в квартире № @apartmentNumber</h2>
+    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+    {
+        <div>
+            <a href="@Url.Action("Create", new { apartmentId })" class="btn btn-primary">Добавить комнату</a>
+            <a href="@Url.Action("GenerateReport", "ApartmentReport", new { apartmentId })" class="btn btn-info ml-2">Сформировать отчет</a>
+        </div>
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                Планировка квартиры
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(apartmentImagePath))
+                {
+                    <img src="@apartmentImagePath" class="img-fluid rounded shadow-sm mb-4" alt="Apartment Image" />
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                {
+                    <form asp-controller="Rooms" asp-action="UploadImage" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="imageFile">Загрузить изображение</label>
+                            <input type="file" name="imageFile" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-info mt-2">Загрузить</button>
+                        <input type="hidden" name="apartmentId" value="@apartmentId" />
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                Список комнат
+            </div>
+            <div class="card-body">
+                @foreach (var room in Model)
+                {
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@room.Name</h5>
+                            <a href="@Url.Action("Details", new { id = room.Id })" class="btn btn-link p-0">Внести замеры</a>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                            {
+                                <a href="@Url.Action("Edit", new { id = room.Id })" class="btn btn-outline-secondary">Редактировать название</a>
+                                <a href="@Url.Action("Delete", new { id = room.Id })" class="btn btn-outline-danger">Удалить</a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

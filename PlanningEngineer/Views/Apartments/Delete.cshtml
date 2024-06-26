@@ -1,0 +1,35 @@
+﻿@model PlanningEngineerApplication.Models.Apartment
+
+@{
+    ViewData["Title"] = "Delete Apartment";
+}
+
+<h1 class="text-center">Удалить квартиру</h1>
+
+<h3>Вы уверены, что хотите удалить эту квартиру?</h3>
+<div>
+    <h4>Квартира № @Model.Number</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Номер квартиры
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Number
+        </dd>
+        <dt class="col-sm-2">
+            Здание
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Building.Address
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <input type="submit" value="Удалить" class="btn btn-danger" /> |
+            <a asp-action="Index" asp-route-buildingId="@Model.BuildingId" class="btn btn-secondary">Отменить</a>
+        </div>
+    </form>
+</div>

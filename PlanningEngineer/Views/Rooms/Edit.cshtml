@@ -1,0 +1,63 @@
+﻿@model PlanningEngineerApplication.Models.Rooms
+
+@{
+    ViewData["Title"] = "Редактирование комнаты";
+    var apartmentId = ViewBag.ApartmentId as int?;
+}
+
+<h1 class="text-center">Редактирование комнаты</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form id="editRoomForm" asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Название комнаты</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ApartmentId" value="@apartmentId" />
+            <br />
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /^-?\d+(\.\d+)?$/.test(value);
+        }
+
+        $(document).ready(function () {
+            $("#editRoomForm").validate({
+                rules: {
+                    Name: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Name: {
+                        required: "Имя комнаты обязательно"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

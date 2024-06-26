@@ -1,0 +1,52 @@
+﻿@model PlanningEngineerApplication.Models.ApartmentCreateDto
+
+@{
+    ViewData["Title"] = "Создать квартиру";
+}
+
+<h1 class="text-center">Создать квартиру</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post" id="apartmentForm">
+            <div class="form-group">
+                <label asp-for="Number" class="control-label">Номер квартиры</label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="BuildingId" />
+            <br />
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#apartmentForm").validate({
+                rules: {
+                    Number: {
+                        required: true,
+                        digits: true
+                    }
+                },
+                messages: {
+                    Number: {
+                        required: "Номер квартиры обязателен",
+                        digits: "Номер квартиры должен быть числом"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,101 @@
+﻿@model PlanningEngineerApplication.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1 class="text-center">Регистрация</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Register" method="post" id="registerForm">
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Пароль</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Фамилия</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Имя</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiddleName" class="control-label">Отчество</label>
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#registerForm").validate({
+                rules: {
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    LastName: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    FirstName: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    MiddleName: {
+                        maxlength: 50
+                    }
+                },
+                messages: {
+                    Email: {
+                        required: "Email обязателен",
+                        email: "Неправильный формат Email"
+                    },
+                    Password: {
+                        required: "Пароль обязателен",
+                        minlength: "Пароль должен содержать не менее 6 символов"
+                    },
+                    LastName: {
+                        required: "Фамилия обязательна",
+                        maxlength: "Фамилия не должна превышать 50 символов"
+                    },
+                    FirstName: {
+                        required: "Имя обязательно",
+                        maxlength: "Имя не должно превышать 50 символов"
+                    },
+                    MiddleName: {
+                        maxlength: "Отчество не должно превышать 50 символов"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

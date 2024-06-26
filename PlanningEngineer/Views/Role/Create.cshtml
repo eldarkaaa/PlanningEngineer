@@ -1,0 +1,44 @@
+﻿@model PlanningEngineerApplication.Models.AssignRoleViewModel
+
+@{
+    ViewData["Title"] = "Assign Role";
+}
+
+<h1 class="text-center">Назначение ролей</h1>
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh; margin-top: 0vh;">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4>Назначить роль пользователю</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="AssignRole" method="post">
+                    <div class="form-group">
+                        <label for="userId">Пользователь</label>
+                        <select id="userId" name="userId" class="form-control">
+                            @foreach (var user in Model.Users)
+                            {
+                                <option value="@user.Id">@user.Email</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleId">Роль</label>
+                        <select id="roleId" name="roleId" class="form-control">
+                            @foreach (var role in Model.Roles)
+                            {
+                                <option value="@role.Id">@role.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary btn-block">Назначить роль</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,62 @@
+﻿@model PlanningEngineerApplication.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="text-center">Вход</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form id="loginForm" method="post">
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" id="Email" name="Email" class="form-control" required />
+                <span class="text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label for="Password">Пароль</label>
+                <input type="password" id="Password" name="Password" class="form-control" required />
+                <span class="text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").validate({
+                rules: {
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Email: {
+                        required: "Email обязателен",
+                        email: "Неправильный формат Email"
+                    },
+                    Password: {
+                        required: "Пароль обязателен"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

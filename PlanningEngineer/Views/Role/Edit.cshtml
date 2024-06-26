@@ -1,0 +1,27 @@
+﻿@model PlanningEngineerApplication.Models.EditUserRolesViewModel
+
+@{
+    ViewData["Title"] = "Edit User Roles";
+}
+
+<h1>Изменить роли пользователя</h1>
+
+<form asp-controller="Role" asp-action="Edit" method="post">
+    <div>
+        <h4>@Model.Email</h4>
+        <input type="hidden" asp-for="Email" />
+    </div>
+    <div>
+        <ul>
+            @for (var i = 0; i < Model.AssignedRoles.Count; i++)
+            {
+                <li>
+                    <input type="checkbox" asp-for="AssignedRoles[i].IsSelected" />
+                    <input type="hidden" asp-for="AssignedRoles[i].Id" />
+                    @Model.AssignedRoles[i].Name
+                </li>
+            }
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
